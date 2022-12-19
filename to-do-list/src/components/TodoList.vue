@@ -1,16 +1,15 @@
 <template>
-    <div class="">
-        <div class="container mx-auto row">
-            <h3 class="text-xl font-semibold text-center text-teal-500">Todo List</h3>
-            <i class="fa-solid fa-flag"></i>
+    <div class=" max-h-max">
+        <div class="container pt-4 mx-auto row">
+            <h3 class="text-xl font-semibold text-center text-teal-500">To do List</h3>
             <input
                 @keyup.enter="addNewItemToList"
-                class="mx-auto border-2 rounded-lg md:col-4 bg-slate-200 border-slate-500"
+                class="h-12 mx-auto my-5 border-2 rounded-lg md:col-4 bg-slate-200 border-slate-500"
                 type="text"
             >
             <ul>
                 <li
-                    class="flex justify-between text-center"
+                    class="flex justify-between p-3 mx-auto text-center rounded-lg md:col-5 even:bg-gray-100"
                     v-for="(item, index) in list"
                     :key="index"
                 >
@@ -30,11 +29,14 @@
                                 {{ item.label }}
                             </label>
                     </div>
-                        <span @click="deleteItem(index)">Excluir</span>
+                    <span 
+                        @click="deleteItem(index)"
+                        class="font-bold text-red-500 cursor-pointer hover:text-red-800"
+                    >
+                        Excluir
+                    </span>
                 </li>
             </ul>
-
-
         </div>
     </div>
 </template>
