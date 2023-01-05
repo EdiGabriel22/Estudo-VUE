@@ -1,77 +1,52 @@
 <template>
-	<main class="columns is-gapless is-multiline" :class="{'modo-escuro' : modoEscuroAtivo}">
-		<div class="column is-one-quarter">
-			<BarraLateralVue @aoTemaAlterado="trocarTema"/>
-
-		</div>
-		<div class="column is-three-quarter conteudo">
-			<FormularioVue @aoSalvarTarefa="salvarTarefa" />
-			<div class="lista">
-				<TarefaVue
-					v-for="(tarefa, index) in tarefas"
-					:key="index"
-					:tarefa="tarefa" />
-				<BoxVue v-if="listaEstaVazia">
-					Você Não está muito produtivo :(
-				</BoxVue>
-			</div>
-		</div>
-	</main>
+  <main class="columns is-gapless is-multiline" :class="{ 'modo-escuro' : modoEscuro}">
+    <div class="column is-one-quarter">
+      <BarraLateral @aoAlterarModo="alterarModo"/>
+    </div>
+    <div class="column is-three-quarters conteudo">
+      <Notificacoes />
+      <router-view></router-view>
+    </div>
+  </main>
 </template>
 
 <script lang="ts">
-	import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
+import BarraLateral from "./components/BarraLateral.vue";
+import Notificacoes from "./components/Notificacoes.vue"
 
-	import BarraLateralVue from './components/BarraLateral.vue';
-	import FormularioVue from './components/Formulario.vue';
-	import TarefaVue from './components/Tarefa.vue';
-	import ITarefa from './interfaces/ITarefa';
-	import BoxVue from './components/Box.vue';
-
-	export default defineComponent({
-		name: 'App',
-		components: {
-			BarraLateralVue,
-			FormularioVue,
-			TarefaVue,
-			BoxVue,
-		},
-		data() {
-			return {
-				tarefas: [] as ITarefa[],
-				modoEscuroAtivo: false
-			};
-		},
-		computed: {
-			listaEstaVazia(): boolean {
-				return this.tarefas.length === 0;
-			},
-		},
-		methods: {
-			salvarTarefa(tarefa: ITarefa) {
-				this.tarefas.push(tarefa);
-			},
-			trocarTema(modoEscuroAtivo: boolean) {
-				this.modoEscuroAtivo = modoEscuroAtivo
-			} 
-		},
-	});
+export default defineComponent({
+  name: "App",
+  components: {
+    BarraLateral,
+    Notificacoes
+  },
+  data () {
+    return {
+      modoEscuro: false
+    }
+  },
+  methods: {
+    alterarModo (modoEscuro: boolean) : void {
+      this.modoEscuro = modoEscuro
+    }
+  }
+});
 </script>
 
-<style >
-	.lista {
-		padding: 1.25rem;
-	}
-	main {
-		--bg-primary:#fff;
-		--text-primary:#000;
-	}
-	main.modo-escuro {
-		--bg-primary:#2b2d42;
-		--text-primary:#ddd;
-	}
-
-	.conteudo {
-		background-color: var(--bg-primary);
-	}
+<style>
+main {
+  --bg-primario: #fff;
+  --texto-primario: #000;
+}
+main.modo-escuro {
+  --bg-primario: #2b2d42;
+  --texto-primario: #ddd;
+}
+.lista {
+  padding: 1.25rem;
+}
+.conteudo {
+  background-color: var(--bg-primario);
+}
 </style>
