@@ -19,18 +19,12 @@
 					<td>{{ projeto.id }}</td>
 					<td>{{ projeto.nome }}</td>
 					<td>
-						<router-link
-							:to="`/projetos/${projeto.id}`"
-							class="button"
-						>
+						<router-link :to="`/projetos/${projeto.id}`" class="button">
 							<span class="icon is-small">
 								<i class="fas fa-pencil-alt"></i>
 							</span>
 						</router-link>
-						<button
-							class="ml-2 button is-danger"
-							@click="excluir(projeto.id)"
-						>
+						<button class="ml-2 button is-danger" @click="excluir(projeto.id)">
 							<span class="icon is-small">
 								<i class="fas fa-trash"></i>
 							</span>
@@ -43,23 +37,24 @@
 </template>
 
 <script lang="ts">
-	import { useStore } from "@/store";
-	import { computed, defineComponent } from "vue";
-	import { EXCLUIR_PROJETO } from "@/store/tipo-mutacoes";
+import { useStore } from "@/store";
+import { computed, defineComponent } from "vue";
+import { OBTER_PROJETOS, REMOVER_PROJETOS } from "@/store/tipo-acoes";
 
-	export default defineComponent({
-		name: "Lista",
-		methods: {
-			excluir(id: string) {
-				this.store.commit(EXCLUIR_PROJETO, id);
-			},
+export default defineComponent({
+	name: "Lista",
+	methods: {
+		excluir(id: string) {
+			this.store.dispatch(REMOVER_PROJETOS, id);
 		},
-		setup() {
-			const store = useStore();
-			return {
-				projetos: computed(() => store.state.projetos),
-				store,
-			};
-		},
-	});
+	},
+	setup() {
+		const store = useStore();
+		store.dispatch(OBTER_PROJETOS)
+		return {
+			projetos: computed(() => store.state.projetos),
+			store,
+		};
+	},
+});
 </script>

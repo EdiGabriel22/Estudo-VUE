@@ -1,4 +1,5 @@
 # alura-tracker
+<!--  $env:NODE_OPTIONS = "--openssl-legacy-provider" -->
 
 ## Project setup
 ```

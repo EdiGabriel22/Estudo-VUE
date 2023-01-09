@@ -28,56 +28,63 @@
 </template>
 
 <script lang="ts">
-	import { defineComponent } from "vue";
+import { defineComponent } from "vue";
 
-	export default defineComponent({
-		name: "BarraLateral",
-		emits: ["aoAlterarModo"],
-		data() {
-			return {
-				modoEscuro: false,
-			};
+export default defineComponent({
+	name: "BarraLateral",
+	emits: ["aoAlterarModo"],
+	data() {
+		return {
+			modoEscuro: false,
+		};
+	},
+	methods: {
+		alterarModo(): void {
+			this.modoEscuro = !this.modoEscuro;
+			this.$emit("aoAlterarModo", this.modoEscuro);
 		},
-		methods: {
-			alterarModo(): void {
-				this.modoEscuro = !this.modoEscuro;
-				this.$emit("aoAlterarModo", this.modoEscuro);
-			},
+	},
+	computed: {
+		textoBtn(): string {
+			return this.modoEscuro ? "claro" : "escuro";
 		},
-		computed: {
-			textoBtn(): string {
-				return this.modoEscuro ? "claro" : "escuro";
-			},
-		},
-	});
+	},
+});
 </script>
 <style scoped>
 h1 {
 	text-align: center;
 }
+
 strong {
 	color: #f95738;
 }
+
 header {
 	background: #0d3b66;
 	width: 100%;
 	height: 100vh;
 	padding: 2rem;
 }
+
 @media only screen and (max-width: 768px) {
 	header {
 		height: auto;
 	}
 }
+
 .panel li {
 	margin: 8px 0;
 }
+
 .link {
 	color: #fff;
 }
+
 .link:hover {
 	color: #faf0ca;
 }
+
 .link.router-link-active {
 	color: #faf0ca;
 }
