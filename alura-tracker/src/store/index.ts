@@ -1,7 +1,7 @@
 import { InjectionKey } from 'vue'
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
 
-import { OBTER_PROJETOS, CADASTRAR_PROJETOS, ALTERAR_PROJETOS, REMOVER_PROJETOS, OBTER_TAREFAS, CADASTRAR_TAREFAS } from './tipo-acoes';
+import { OBTER_PROJETOS, CADASTRAR_PROJETOS, ALTERAR_PROJETOS, REMOVER_PROJETOS, OBTER_TAREFAS, CADASTRAR_TAREFA } from './tipo-acoes';
 import { ADICIONA_PROJETO, ALTERA_PROJETO, EXCLUIR_PROJETO, NOTIFICAR, DEFINIR_PROJETOS, DEFINIR_TAREFAS, ADICIONA_TAREFA } from "./tipo-mutacoes";
 
 import IProjeto from "@/interfaces/IProjeto";
@@ -45,19 +45,20 @@ export const store = createStore<Estado>({
             state.tarefas = tarefas
         },
         [NOTIFICAR] (state, novaNotificacao: INotificacao) {
-
             novaNotificacao.id = new Date().getTime()
             state.notificacoes.push(novaNotificacao)
-
             setTimeout(() => {
                 state.notificacoes = state.notificacoes.filter(notificacao => notificacao.id != novaNotificacao.id)
             }, 3000)
-        }
+        },
+        [ADICIONA_TAREFA](state, tarefa: ITarefa) {
+            state.tarefas.push(tarefa)
+        },
     },
     actions: {
         [OBTER_PROJETOS] ({ commit }) {
             http.get('projetos')
-                .then(resposta => commit( DEFINIR_PROJETOS, resposta.data))
+                .then(response => commit( DEFINIR_PROJETOS, response.data))
         },
         [CADASTRAR_PROJETOS] (contexto, nomeDoProjeto: string) {
             return http.post('/projetos', {
@@ -73,11 +74,11 @@ export const store = createStore<Estado>({
         },
         [OBTER_TAREFAS] ({ commit }) {
             http.get('tarefas')
-                .then(resposta => commit( DEFINIR_TAREFAS, resposta.data))
+                .then(response => commit( DEFINIR_TAREFAS, response.data))
         },
-        [CADASTRAR_TAREFAS] ({commit}, tarefa: ITarefa) {
+        [CADASTRAR_TAREFA] ({commit}, tarefa: ITarefa) {
             return http.post('/tarefa', tarefa)
-                .then(resposta => commit(ADICIONA_TAREFA, resposta.data))
+                .then(response => commit(ADICIONA_TAREFA, response.data))
         },
     }
 })
