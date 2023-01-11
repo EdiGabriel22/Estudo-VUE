@@ -37,7 +37,7 @@
 					</div>
 				</section>
 				<footer class="modal-card-foot">
-					<button class="button is-success">Salvar alterações</button>
+					<button class="button is-success" @click="alterarTarefa">Salvar alterações</button>
 					<button class="button" @click="fecharModal">
 						Cancelar
 					</button>
@@ -57,6 +57,7 @@ import {
 	CADASTRAR_TAREFA,
 	OBTER_TAREFAS,
 	OBTER_PROJETOS,
+ALTERAR_TAREFA,
 } from "@/store/tipo-acoes"
 import ITarefa from "@/interfaces/ITarefa"
 
@@ -82,6 +83,10 @@ export default defineComponent({
 		fecharModal() {
 			this.tarefaSelecionada = null
 		},
+		alterarTarefa() {
+			this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada)
+				.then(() => this.fecharModal)
+		}
 	},
 	computed: {
 		semTarefas(): boolean {
