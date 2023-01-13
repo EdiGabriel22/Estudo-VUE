@@ -24,7 +24,37 @@
 			:key="index"
 			@aoTarefaClicada="selecionarTarefa"
 		/>
-
+		<Modal :mostrar="tarefaSelecionada != null">
+			<template v-slot:cabecalho>
+				<p class="modal-card-title">Editando uma tarefa</p>
+				<button
+					@click="fecharModal"
+					class="delete"
+					aria-label="close"
+				></button>
+			</template>
+			<template v-slot:corpo>
+				<div class="field">
+					<label for="descricaoDaTarefa" class="label">
+						Descrição
+					</label>
+					<input
+						type="text"
+						class="input"
+						v-model="tarefaSelecionada.descricao"
+						id="descricaoDaTarefa"
+					/>
+				</div>
+			</template>
+			<template v-slot:rodape>
+				<button @click="alterarTarefa" class="button is-success">
+					Salvar alterações
+				</button>
+				<button @click="fecharModal" class="button">
+					Cancelar
+				</button>
+			</template>
+		</Modal>
 	</div>
 </template>
 
@@ -33,6 +63,7 @@
 	import Formulario from "../components/Formulario.vue";
 	import Tarefa from "../components/Tarefa.vue";
 	import Box from "../components/Box.vue";
+	import Modal from "../components/Box.vue";
 	import { useStore } from "@/store";
 	import {
 		ALTERAR_TAREFA,
@@ -48,6 +79,7 @@
 			Formulario,
 			Tarefa,
 			Box,
+			Modal
 		},
 		data() {
 			return {

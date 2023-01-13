@@ -1,39 +1,19 @@
 <template>
 	<div
 		class="modal"
-		:class="{ 'is-active': tarefaSelecionada }"
-		v-if="tarefaSelecionada"
+		:class="{ 'is-active': mostrar }"
+		v-if="mostrar"
 	>
 		<div class="modal-background"></div>
 		<div class="modal-card">
 			<header class="modal-card-head">
-				<p class="modal-card-title">Editando uma tarefa</p>
-				<button
-					@click="fecharModal"
-					class="delete"
-					aria-label="close"
-				></button>
+				<slot name="cabecalho" />
 			</header>
 			<section class="modal-card-body">
-				<div class="field">
-					<label for="descricaoDaTarefa" class="label">
-						Descrição
-					</label>
-					<input
-						type="text"
-						class="input"
-						v-model="tarefaSelecionada.descricao"
-						id="descricaoDaTarefa"
-					/>
-				</div>
+				<slot name="corpo" />
 			</section>
 			<footer class="modal-card-foot">
-				<button @click="alterarTarefa" class="button is-success">
-					Salvar alterações
-				</button>
-				<button @click="fecharModal" class="button">
-					Cancelar
-				</button>
+				<slot name="rodape" />
 			</footer>
 		</div>
 	</div>
@@ -41,8 +21,16 @@
 
 <script lang="ts">
 
-import { DefineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
-export default DefineComponent
+export default defineComponent({
+	name: 'Modal',
+	props: {
+		mostrar:{
+			type: Boolean,
+			required: true
+		}
+	}
+})
 
 </script>
